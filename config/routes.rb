@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
       namespace :v1 do
+        mount ActionCable.server => '/cable'
         resources :users, only: :create do
           collection do
             post 'confirm'
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
         resources :questions, only: [:index, :create, :show, :destroy]
 
         resources :answers, only: [:create, :destroy]
+
 
       end
     end
