@@ -10,6 +10,10 @@ Rails.application.routes.draw do
           end
         end
 
+        get 'users/:id', to: 'users#show'
+
+        post 'users/current', to: 'users#find_current_user'
+
         post 'password/forgot', to: 'password#forgot'
 
         post 'password/reset', to: 'password#reset'

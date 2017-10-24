@@ -7,16 +7,25 @@ class Api::V1::UsersController < ApplicationController
     user = User.new(user_params)
     # binding.pry
     if user.save
-      render json: {status: 'User created successfully'}, status: :created
+      # render json: {status: 'User created successfully'}, status: :created
+      login
     else
       render json: { errors: user.errors.full_messages }, status: :bad_request
     end
   end
 
-  # def show
-  #   user = User.find(params[:id])
-  #
-  # end
+  def show
+    user = User.find(params[:id])
+
+    # binding.pry
+
+    if(user)
+      render json: user
+    else
+      render json: {errors: user.errors.full_messages}
+    end
+
+  end
 
   def confirm
     token = params[:token].to_s
@@ -38,6 +47,7 @@ class Api::V1::UsersController < ApplicationController
     if user && user.authenticate(params[:password])
       # if user.confirmed_at?
         auth_token = JsonWebToken.encode({user_id: user.id})
+
         # binding.pry
         # render json: {status: "hello"}
         render json: {auth_token: auth_token, user:{id: user.id, first_name: user.first_name, last_name: user.last_name}}
@@ -46,6 +56,19 @@ class Api::V1::UsersController < ApplicationController
       # end
     else
       render json: {error: 'Invalid username / password'}, status: :unauthorized
+    end
+  end
+
+  def find_current_user
+    auth_header = request.headers['Authorization']
+    token = auth_header.split(' ').last
+    current_user_id = JsonWebToken.decode(token)[0]["user_id"]
+    current_user = User.find_by(id: current_user_id)
+    # binding.pry
+    if(current_user)
+      render json: {user: {id: current_user.id, first_name: current_user.first_name, last_name: current_user.last_name}}
+    else
+      render json: {error: "User does not exist"}
     end
   end
 
