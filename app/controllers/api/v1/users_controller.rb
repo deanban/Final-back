@@ -20,18 +20,21 @@ class Api::V1::UsersController < ApplicationController
     # binding.pry
 
     if user.valid?
-      binding.pry
       user_questions = user.questions
+      answers_to_questions = {}
+      questions = user_questions.each {|i| answers_to_questions[i.id] = i.answers }
       user_question_answers = user_questions.map do |i|
         i.answers
+        # binding.pry
+
+
       end
       user_answers_qs = user.answers.map do |i|
         i.question
       end.uniq
 
       render json: {id: user.id, first_name: user.first_name, last_name: user.last_name,
-        questions: {questions_user_asked: user_questions, answers_to_questions_asked: user_question_answers},
-        questions_to_user_answers: user_answers_qs}
+        answers: answers_to_questions}
     else
       render json: {errors: user.errors.full_messages}
     end
