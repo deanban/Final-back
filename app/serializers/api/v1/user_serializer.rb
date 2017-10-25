@@ -1,7 +1,10 @@
 class Api::V1::UserSerializer < ActiveModel::Serializer
+
+  attributes :questions, :answers, :votes
+
   has_many :questions
   has_many :answers
-  has_many :votes
+  # has_many :votes
 
   # from question serializer
   has_many :answers
