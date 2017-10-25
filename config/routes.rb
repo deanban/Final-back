@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         put 'password/update', to: 'password#update'
 
         # get 'home' => 'home#index'
+        resources :votes, only: [:create, :destroy]
 
         get 'categories' => 'categories#index'
 

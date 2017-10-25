@@ -19,7 +19,6 @@ cat6 = Category.create(name:"News, Entertainment, and Pop Culture")
 cat7 = Category.create(name:"Business, Work, and Careers")
 cat8 = Category.create(name:"History, Philosophy, Religion, and Humanities")
 
-
 roses = Question.create(title:"why are roses red?", user_id:1, category_id:1)
 trump = Question.create(title:"Will Trump quit before his term ends?", user_id:2, category_id:2)
 sun = Question.create(title:"How far are we from the sun?", user_id:3, category_id:1)
