@@ -5,7 +5,8 @@ class User < ApplicationRecord
   has_many :answers
   has_many :votes
 
-  validates_presence_of :email
+  validates :email, presence: true
+  validates :password, presence: true
   validates_uniqueness_of :email, case_sensitive: false
   validates_format_of :email, with: /@/
 
